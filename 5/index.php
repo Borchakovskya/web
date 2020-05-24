@@ -80,12 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $powers['night-vision'] = 'Ночное зрение';
   $powers['levitation'] = 'Левитация';
 
-  $values['name'] = empty($_COOKIE['name_value']) ? '' : $_COOKIE['name_value'];
-  $values['email'] = empty($_COOKIE['email_value']) ? '' : $_COOKIE['email_value'];
-  $values['year'] = empty($_COOKIE['year_value']) ? '' : $_COOKIE['year_value'];
-  $values['gender'] = empty($_COOKIE['gender_value']) ? 'male' : $_COOKIE['gender_value'];
-  $values['limbs'] = empty($_COOKIE['limbs_value']) ? '4' : $_COOKIE['limbs_value'];
-  $values['bio'] = empty($_COOKIE['bio_value']) ? '' : $_COOKIE['bio_value'];
+  $values['name'] = empty($_COOKIE['name_value']) ? '' : strip_tags($_COOKIE['name_value']);
+  $values['email'] = empty($_COOKIE['email_value']) ? '' : strip_tags($_COOKIE['email_value']);
+  $values['year'] = empty($_COOKIE['year_value']) ? '' : is_numeric(strip_tags($_COOKIE['year_value']));
+  $values['gender'] = empty($_COOKIE['gender_value']) ? 'male' : strip_tags($_COOKIE['gender_value']);
+  $values['limbs'] = empty($_COOKIE['limbs_value']) ? '4' : is_numeric(strip_tags($_COOKIE['limbs_value']));
+  $values['bio'] = empty($_COOKIE['bio_value']) ? '' : strip_tags($_COOKIE['bio_value']);
 
   if (!empty($_COOKIE['powers_value'])) {
       $powers_value = json_decode($_COOKIE['powers_value']);

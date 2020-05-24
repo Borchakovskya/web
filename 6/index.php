@@ -23,19 +23,24 @@ if (empty($_SERVER['PHP_AUTH_USER']) ||
     exit();
 }
 
+$token = md5($_SERVER['PHP_AUTH_USER']);
+setcookie('token', $token, time() + 24 * 60 * 60);
+
 $db_user = 'u16852';
 $db_pass = '7594281';
 
 $db = new PDO('mysql:host=localhost;dbname=u16852', $db_user, $db_pass, array(PDO::ATTR_PERSISTENT => true));
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  try {
-    $stmt = $db->prepare('DELETE FROM web5 WHERE login = ?');
-    $stmt->execute(array($_POST['delete']));
-  } catch (PDOException $e) {
-    echo 'Ошибка: ' . $e->getMessage();
+  if ($_POST['token'] === $_COOKIE['token']) {
+    try {
+      $stmt = $db->prepare('DELETE FROM web5 WHERE login = ?');
+      $stmt->execute(array($_POST['delete']));
+    } catch (PDOException $e) {
+      echo 'Ошибка: ' . $e->getMessage();
+    }
+    header('Location: ./');
   }
-  header('Location: ./');
 }
 
 try {
@@ -45,9 +50,9 @@ try {
 <!-- ./ PHP CODE -->
 
 
-
   <div class="table-responsive">
     <form method="POST">
+      <input type="hidden" name="token" value="<?php print($token); ?>">
       <table class="table table-striped table-bordered table-hover table-sm">
         <thead class="thead-dark">
           <tr>

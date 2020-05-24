@@ -42,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 }
 else {
 
-  $login = $_POST['login'];
-  $pass =  hash('sha256', $_POST['pass'], false);
+  $login = strip_tags($_POST['login']);
+  $pass =  hash('sha256', strip_tags($_POST['pass']), false);
 
   $db_user = 'u16852';   // Логин БД
   $db_pass = '7594281';  // Пароль БД
